@@ -1,10 +1,10 @@
 services:
-  mysql:
+  postgres-api:
     image: 'mysql:latest'
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      POSTGRES_DB: 'branchsync'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'root'
     ports:
-      - '3306'
+      - '5432:5432'
+

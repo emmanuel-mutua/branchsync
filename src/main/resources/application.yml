@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/branchsync
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root
+
+  jpa:
+    show-sql: true
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8082
+  servlet:
+    context-path: /branchsync

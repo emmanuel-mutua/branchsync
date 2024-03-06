@@ -18,12 +18,12 @@ import java.util.List;
 public class UserController {
     private final AuthenticationService authenticationService;
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<AuthenticationResponse> createUserAccount(@RequestBody RegisterRequest registerRequest) {
         var registerResponse = authenticationService.registerUser(registerRequest);
         return ResponseEntity.status(HttpStatus.OK).body(registerResponse);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> loginUser(@RequestBody LoginRequest loginRequest){
         var loginResponse = authenticationService.loginUser(loginRequest);
         return ResponseEntity.status(HttpStatus.OK).body(loginResponse);

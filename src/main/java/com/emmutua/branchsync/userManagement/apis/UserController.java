@@ -2,6 +2,9 @@ package com.emmutua.branchsync.userManagement.apis;
 
 import com.emmutua.branchsync.userManagement.dtos.AuthenticationResponse;
 import com.emmutua.branchsync.userManagement.dtos.RegisterRequest;
+import com.emmutua.branchsync.userManagement.service.AuthenticationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users-management/")
+@RequiredArgsConstructor
 public class UserController {
-    // TODO REGISTER USER
-    @GetMapping("/register")
+    private final AuthenticationService authenticationService;
+    @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody RegisterRequest registerRequest) {
-        return null;
+        var registerResponse = authenticationService.registerUser(registerRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(registerResponse);
     }
     // TODO LOGIN USER
     // TODO DELETE USER

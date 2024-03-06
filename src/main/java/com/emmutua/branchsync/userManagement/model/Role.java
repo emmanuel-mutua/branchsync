@@ -1,5 +1,5 @@
 package com.emmutua.branchsync.userManagement.model;
 
-enum Role {
+public enum Role {
     ADMIN, USER
 }

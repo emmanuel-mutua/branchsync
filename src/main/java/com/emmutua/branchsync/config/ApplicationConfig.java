@@ -1,8 +1,8 @@
 package com.emmutua.branchsync.config;
 
-import com.emmutua.branchsync.userManagement.model.AppUser;
 import com.emmutua.branchsync.userManagement.repo.AppUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +23,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ApplicationConfig {
 
     private final AppUserRepository appUserRepository;
+
+    @Value("${auth.token}")
+    String apiKey;
+    @Bean
+    public String apiKey(){
+        return apiKey;
+    }
 
     @Bean
     public UserDetailsService userDetailsService(){

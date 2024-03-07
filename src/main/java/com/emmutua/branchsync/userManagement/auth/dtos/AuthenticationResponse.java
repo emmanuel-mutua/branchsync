@@ -1,4 +1,4 @@
-package com.emmutua.branchsync.userManagement.dtos;
+package com.emmutua.branchsync.userManagement.auth.dtos;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -27,7 +27,7 @@ public class AppUser implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private boolean enabled = true;
+    private boolean enabled = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

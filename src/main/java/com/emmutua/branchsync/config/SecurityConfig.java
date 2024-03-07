@@ -27,6 +27,7 @@ public class SecurityConfig {
                 {
                         "/api/v1/auth/**",
                         "/api/v1/user-management/**",
+                        "/api/v1/sales/**",
                 };
         security.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers(allowedApis).permitAll().anyRequest().authenticated())

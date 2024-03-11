@@ -31,12 +31,12 @@ public class SalesController {
     public List<Item> getAllSales(){
         return salesService.getAllSales();
     }
-    @GetMapping("/month/{month}}")
-    public List<Item> getMonthlySales(@PathVariable String month){
-        return salesService.getAllSalesInACertainMonth(month);
+    @GetMapping("/month/{id}")
+    public List<Item> getMonthlySales(@PathVariable String id){
+        return salesService.getAllSalesInACertainMonth(id);
     }
 
-    @GetMapping("/day/{localDate}}")
+    @GetMapping("/day/{localdate}")
     public List<Item> getDailySales(@PathVariable LocalDate localDate){
         return salesService.getDailySales(localDate);
     }

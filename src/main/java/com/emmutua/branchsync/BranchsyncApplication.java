@@ -13,7 +13,7 @@ public class BranchsyncApplication {
 		SpringApplication.run(BranchsyncApplication.class, args);
 	}
 
-	@Bean
+//	@Bean
 	CommandLineRunner commandLineRunner(SalesRepository salesRepository){
 		return args -> {
 			 salesRepository.deleteAll();

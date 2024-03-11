@@ -22,7 +22,9 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
         var allowedApis = new String[]
                 {
-                        "/api/v1/auth/**"
+                        "/api/v1/auth/**",
+                        "/api-docs/**",
+                        "/swagger-ui/**"
                 };
         security.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers(allowedApis).permitAll()

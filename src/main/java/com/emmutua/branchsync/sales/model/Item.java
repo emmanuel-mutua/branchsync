@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,4 +33,9 @@ public class Item {
     private LocalDate localDate;
     @Column(name = "creation_time")
     private LocalTime localTime;
+    private String month;
+
+    public void setMonth() {
+        this.month = String.valueOf(LocalDate.now().getMonth());
+    }
 }

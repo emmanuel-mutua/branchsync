@@ -15,12 +15,14 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Iterator;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SalesServiceImpl implements SalesService{
+public class SalesServiceImpl implements SalesService {
 
     private final SalesRepository salesRepository;
+
     @Override
     @Transactional
     public CustomResponse submitDailySales(
@@ -48,11 +50,11 @@ public class SalesServiceImpl implements SalesService{
             Iterator<Row> iterator = sheet.iterator();
             //Skip the header
             iterator.next();
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 Row row = iterator.next();
                 // Read data from cells A2, B2, C2, D2
                 String name = row.getCell(0).getStringCellValue();
-                Double unitPrice =  row.getCell(1).getNumericCellValue();
+                Double unitPrice = row.getCell(1).getNumericCellValue();
                 int itemsSold = (int) row.getCell(2).getNumericCellValue();
                 float totalIncome = (float) row.getCell(3).getNumericCellValue();
 
@@ -64,12 +66,28 @@ public class SalesServiceImpl implements SalesService{
                         .localDate(localDate)
                         .localTime(localTime)
                         .build();
+                item.setMonth();
                 salesRepository.save(item);
             }
             wb.close();
             return CustomResponse.success("Daily Sales Submitted");
-        }catch (IOException e){
+        } catch (IOException e) {
             return CustomResponse.error("Daily Sales Not Submitted, Try again");
         }
+    }
+
+    @Override
+    public List<Item> getAllSales() {
+        return salesRepository.findAll();
+    }
+
+    @Override
+    public List<Item> getAllSalesInACertainMonth(String month) {
+        return salesRepository.findAllByMonth(month);
+    }
+
+    @Override
+    public List<Item> getDailySales(LocalDate localDate) {
+        return salesRepository.findAllByLocalDate(localDate);
     }
 }

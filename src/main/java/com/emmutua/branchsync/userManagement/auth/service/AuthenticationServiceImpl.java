@@ -1,5 +1,6 @@
 package com.emmutua.branchsync.userManagement.auth.service;
 
+import com.emmutua.branchsync.config.jwt.JwtService;
 import com.emmutua.branchsync.userManagement.auth.dtos.AuthenticationResponse;
 import com.emmutua.branchsync.userManagement.auth.dtos.LoginRequest;
 import com.emmutua.branchsync.userManagement.auth.dtos.RegisterRequest;
@@ -19,9 +20,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AppUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-
-    @Value("${auth.token}")
-    String authToken;
+    private final JwtService jwtService;
 
     @Override
     public AuthenticationResponse registerUser(RegisterRequest registerRequest) {
@@ -40,6 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .role(Role.USER)
                 .build();
         userRepository.save(appUser);
+        var authToken = jwtService.generateToken(appUser);
         return AuthenticationResponse.success(authToken, creationMessage);
     }
 
@@ -49,8 +49,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
             );
-           userRepository.findByEmail(loginRequest.getEmail())
+           var appUser = userRepository.findByEmail(loginRequest.getEmail())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+
+            var authToken = jwtService.generateToken(appUser);
 
             return AuthenticationResponse.success(authToken, "Login Success");
         }catch (Exception e){

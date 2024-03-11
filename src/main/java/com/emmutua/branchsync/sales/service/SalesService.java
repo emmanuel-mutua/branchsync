@@ -1,10 +1,10 @@
 package com.emmutua.branchsync.sales.service;
 
-import com.emmutua.branchsync.Response.CustomResponse;
-import com.emmutua.branchsync.sales.dto.RequestSales;
+import com.emmutua.branchsync.util.CustomResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface SalesService {
     CustomResponse submitDailySales(
-            RequestSales requestSales
+            MultipartFile requestSales
     );
 }

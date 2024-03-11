@@ -1,7 +1,7 @@
 package com.emmutua.branchsync.config;
 
+import com.emmutua.branchsync.config.jwt.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,23 +17,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
-
-    @Value("${auth.token}")
-    private String apiKey;
-
+    private final JwtAuthFilter jwtAuthFilter;
     @Bean
     SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
         var allowedApis = new String[]
                 {
-                        "/api/v1/auth/**",
-                        "/api/v1/user-management/**",
-                        "/api/v1/sales/**",
+                        "/api/v1/auth/**"
                 };
         security.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers(allowedApis).permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(request -> request.requestMatchers(allowedApis).permitAll()
+                        .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(new ApiKeyAuthFilter(apiKey), UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authenticationProvider) //Fetch userDetails
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
         ;
 
         return security.build();

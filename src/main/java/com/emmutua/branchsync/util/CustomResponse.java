@@ -1,4 +1,4 @@
-package com.emmutua.branchsync.Response;
+package com.emmutua.branchsync.util;
 
 import lombok.Getter;
 import lombok.Setter;

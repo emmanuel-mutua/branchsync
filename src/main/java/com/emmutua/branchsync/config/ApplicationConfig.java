@@ -31,6 +31,12 @@ public class ApplicationConfig {
         return apiKey;
     }
 
+//    @Bean(name = "multipartResolver")
+//    public CommonsMultipartResolver multipartResolver() {
+//        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//        return multipartResolver;
+//    }
+
     @Bean
     public UserDetailsService userDetailsService(){
         return username -> appUserRepository.findByEmail(username)
@@ -49,6 +55,7 @@ public class ApplicationConfig {
     }
     /**
      * Responsible for managing auth and authenticating with username(email) and pwd
+     * Processes an Authentication request.
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {

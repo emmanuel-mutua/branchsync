@@ -1,7 +1,6 @@
 package com.emmutua.branchsync.sales.service;
 
-import com.emmutua.branchsync.Response.CustomResponse;
-import com.emmutua.branchsync.sales.dto.RequestSales;
+import com.emmutua.branchsync.util.CustomResponse;
 import com.emmutua.branchsync.sales.model.Item;
 import com.emmutua.branchsync.sales.repo.SalesRepository;
 import jakarta.transaction.Transactional;
@@ -10,10 +9,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Iterator;
@@ -26,13 +24,22 @@ public class SalesServiceImpl implements SalesService{
     @Override
     @Transactional
     public CustomResponse submitDailySales(
-            RequestSales requestSales
+            MultipartFile requestSales
     ) {
         try {
             // Use current date and time
             LocalDate localDate = LocalDate.now();
             LocalTime localTime = LocalTime.now();
-            FileInputStream excelFile = new FileInputStream(requestSales.getExcelFile());
+            // Create a temporary Excel file
+            File tempFile = File.createTempFile("tempFile", ".xlsx");
+
+            // Write the content of the MultipartFile to the temporary file
+            try (OutputStream os = new FileOutputStream(tempFile)) {
+                os.write(requestSales.getBytes());
+            }
+
+            // Create a FileInputStream for the temporary file
+            FileInputStream excelFile = new FileInputStream(tempFile);
             // create workbook instance
             XSSFWorkbook wb = new XSSFWorkbook(excelFile);
             // Get sheet 1

@@ -1,4 +1,7 @@
 # Documentation
+- Authentication
+- Authorisation (jwt)
+- Apache Poi
 # SetUp
 
 **`<dependency>

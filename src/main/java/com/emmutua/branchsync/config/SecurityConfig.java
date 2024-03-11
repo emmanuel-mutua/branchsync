@@ -24,7 +24,8 @@ public class SecurityConfig {
                 {
                         "/api/v1/auth/**",
                         "/api-docs/**",
-                        "/swagger-ui/**"
+                        "/swagger-ui/**",
+                        "/redoc.html"
                 };
         security.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers(allowedApis).permitAll()
